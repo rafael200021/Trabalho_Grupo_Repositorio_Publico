@@ -1,0 +1,1 @@
+Esse projeto foi criado para facilitar a organização e criação de grupos.
