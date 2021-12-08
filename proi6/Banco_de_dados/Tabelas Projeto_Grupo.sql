@@ -1,0 +1,138 @@
+CREATE DATABASE Projeto_Grupos;
+ 
+USE Projeto_Grupos;
+
+CREATE TABLE Usuario(
+	
+	id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
+	nome VARCHAR(255) NOT NULL,
+	usuario VARCHAR(255) NOT NULL,
+	senha VARCHAR(255) NOT NULL,
+	email VARCHAR(255) NOT NULL,
+	imagem LONGBLOB NULL
+	
+);
+
+CREATE TABLE Times(
+	
+	id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+	fk_Id_Usuario INT NOT NULL,
+	num_Membros INT NOT NULL,
+	num_Membros_Maximo INT NOT NULL,
+	nome VARCHAR(255) NOT NULL,
+	data_Criacao DATE NOT NULL,
+	descricao VARCHAR(255) NOT NULL,
+	imagem LONGBLOB NULL
+	
+);
+
+CREATE TABLE Grupos (
+
+	id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
+	fk_Id_Usuario INT NOT NULL,
+	fk_Id_Times INT NOT NULL,
+	nome VARCHAR(255) NOT NULL,
+	data_Criacao DATE NOT NULL,
+	imagem LONGBLOB NULL
+
+);
+
+CREATE TABLE Times_Usuario (
+
+	id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
+	fk_Id_Usuario INT NOT NULL,
+	fk_Id_Times INT NOT NULL
+
+);
+
+CREATE TABLE Grupos_Usuario (
+
+	id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
+	fk_Id_Usuario INT NOT NULL,
+	fk_Id_Grupos INT NOT NULL	
+
+);
+
+CREATE TABLE SemGrupo (
+	id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
+	fk_Id_Usuario INT NOT NULL,
+	fk_Id_Times INT NOT NULL
+);
+
+CREATE TABLE AutorizarUsuarioTime(
+	id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
+	fk_Id_Usuario INT NOT NULL,
+	fk_Id_Times INT NOT NULL
+);
+
+CREATE TABLE AutorizarUsuarioGrupo(
+	id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
+	fk_Id_Usuario INT NOT NULL,
+	fk_Id_Grupos INT NOT NULL
+);
+
+ALTER TABLE Times ADD CONSTRAINT FK_Times
+FOREIGN KEY (fk_Id_Usuario)
+REFERENCES Usuario (id)
+ON DELETE CASCADE;
+
+
+ALTER TABLE Grupos ADD CONSTRAINT FK_Grupos
+FOREIGN KEY (fk_Id_Usuario)
+REFERENCES Usuario (id)
+ON DELETE CASCADE;
+
+ALTER TABLE Grupos ADD CONSTRAINT FK_Grupos2
+FOREIGN KEY (fk_Id_Times)
+REFERENCES Times (id)
+ON DELETE CASCADE;
+
+ALTER TABLE Times_Usuario ADD CONSTRAINT FK_Times_Usuario
+FOREIGN KEY (fk_Id_Usuario)
+REFERENCES Usuario (id)
+ON DELETE CASCADE;
+
+ALTER TABLE Times_Usuario ADD CONSTRAINT FK_Times_Usuario2
+FOREIGN KEY (fk_Id_Times)
+REFERENCES Times (id)
+ON DELETE CASCADE;
+
+ALTER TABLE Grupos_Usuario ADD CONSTRAINT FK_Grupos_Usuario
+FOREIGN KEY (fk_Id_Usuario)
+REFERENCES Usuario (id)
+ON DELETE CASCADE;
+
+ALTER TABLE Grupos_Usuario ADD CONSTRAINT FK_Grupos_Usuario2
+FOREIGN KEY (fk_Id_Grupos)
+REFERENCES Grupos (id)
+ON DELETE CASCADE;
+
+ALTER TABLE SemGrupo ADD CONSTRAINT FK_SemGrupo
+FOREIGN KEY (fk_Id_Usuario)
+REFERENCES Usuario (id)
+ON DELETE CASCADE;
+
+ALTER TABLE SemGrupo ADD CONSTRAINT FK_SemGrupo2
+FOREIGN KEY (fk_Id_Times)
+REFERENCES Times (id)
+ON DELETE CASCADE;
+
+ALTER TABLE AutorizarUsuarioTime ADD CONSTRAINT FK_AutorizarUsuarioTime
+FOREIGN KEY (fk_Id_Usuario)
+REFERENCES Usuario (id)
+ON DELETE CASCADE;
+
+ALTER TABLE AutorizarUsuarioTime ADD CONSTRAINT FK_AutorizarUsuarioTime2
+FOREIGN KEY (fk_Id_Times)
+REFERENCES Times (id)
+ON DELETE CASCADE;
+
+ALTER TABLE AutorizarUsuarioGrupo ADD CONSTRAINT FK_AutorizarUsuarioGrupo
+FOREIGN KEY (fk_Id_Usuario)
+REFERENCES Usuario (id)
+ON DELETE CASCADE;
+
+ALTER TABLE AutorizarUsuarioGrupo ADD CONSTRAINT FK_AutorizarUsuarioGrupo2
+FOREIGN KEY (fk_Id_Grupos)
+REFERENCES Grupos (id)
+ON DELETE CASCADE;
